@@ -164,6 +164,7 @@
 
         function Tree() {
             this.root = null
+            this.nodeCount = 0
             this.nodeMap = {}
         }
 
@@ -203,6 +204,7 @@
 
         Tree.prototype.addNode = function (newNode) {
             this.nodeMap[newNode.id] = newNode
+            this.nodeCount ++
         }
 
         Tree.prototype.removeNode = function (node) {
@@ -219,6 +221,7 @@
                 }
             }
             delete this.nodeMap[node.id]
+            this.nodeCount --
             if (this.root === node) {
                 this.root = null
             }
@@ -240,6 +243,7 @@
             if (!nodeList || nodeList.length === 0 || !nodeList[0]) {
                 return newT
             }
+            newT.nodeCount = 1
             var root = NewNode(null, nodeList.shift())
             newT.root = root
             newT.nodeMap[root.id] = root
@@ -256,6 +260,7 @@
                     if (lnodeV) {
                         lnode = NewNode(pNode, lnodeV)
                         newT.nodeMap[lnode.id] = lnode
+                        newT.nodeCount ++
                         pNode.left = lnode
                         currList.push(lnode)
                     }
@@ -268,6 +273,7 @@
                         newT.nodeMap[rnode.id] = rnode
                         pNode.right = rnode
                         currList.push(rnode)
+                        newT.nodeCount ++
                     }
                 }
                 parentList = currList
@@ -368,7 +374,7 @@
                 return
             }
             var height = tree.getHeight()
-            document.getElementById("canvas").setAttribute("width", 2 ** height * config.iw * 2 + "px")
+            document.getElementById("canvas").setAttribute("width", config.iw * (tree.nodeCount + 1) + "px")
             document.getElementById("canvas").setAttribute("height", config.ih * (height + 1) + "px")
             lastNodePos = drawNode(tree.root, 0, null)
 
