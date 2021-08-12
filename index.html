@@ -176,9 +176,6 @@
             parentList = [this.root]
             while (parentList.length > 0) {
                 var curr = parentList.shift()
-                if (!curr.left && !curr.right) {
-                    continue
-                }
                 if (curr.left) {
                     rawNodeList.push(curr.left.val)
                     parentList.push(curr.left)
